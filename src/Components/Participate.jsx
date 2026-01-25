@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../utils/firebase";
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
+
 import { FaTrophy, FaVideo, FaCheckCircle } from "react-icons/fa";
 
 const Participate = () => {
@@ -57,6 +58,22 @@ const Participate = () => {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    const checkParticipation = async () => {
+      const user = auth.currentUser;
+      if (!user) return;
+
+      const ref = doc(db, "participations", user.uid);
+      const snap = await getDoc(ref);
+
+      if (snap.exists()) {
+        setSubmitted(true); 
+      }
+    };
+
+    checkParticipation();
+  }, []);
+
 
   return (
     <div className="min-h-screen bg-gray-50 px-6 py-12">

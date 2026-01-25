@@ -54,7 +54,7 @@ const Signup = () => {
         displayName: fullName,
       });
 
-      navigate("/main");
+      navigate("/home");
     } catch (err) {
       setError(getErrorMessage(err.code));
     } finally {
