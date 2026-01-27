@@ -164,14 +164,25 @@ const getVideoPlatform = (link) => {
                   {error && (
                     <p className="text-red-500 text-sm mt-2">{error}</p>
                   )}
+                  <div className="mt-6 flex gap-4">
+                    <button
+                      onClick={handleSubmit}
+                      disabled={loading}
+                      className="flex-1 bg-pink-500 text-white py-2 rounded-lg
+               hover:bg-pink-600 transition disabled:opacity-50"
+                    >
+                      {loading ? "Submitting..." : "Submit Entry"}
+                    </button>
 
-                  <button
-                    onClick={handleSubmit}
-                    disabled={loading}
-                    className="mt-6 w-full bg-pink-500 text-white py-2 rounded-lg hover:bg-pink-600 transition disabled:opacity-50"
-                  >
-                    {loading ? "Submitting..." : "Submit Entry"}
-                  </button>
+                    <button
+                      onClick={handleNo}
+                      disabled={loading}
+                      className="flex-1 border border-pink-500 text-pink-500 py-2 rounded-lg
+               hover:bg-pink-500 hover:text-white transition"
+                    >
+                      No
+                    </button>
+                  </div>
 
                   <p className="mt-3 text-xs text-gray-500 flex items-center gap-1">
                     <FaCheckCircle className="text-green-500" />
@@ -211,10 +222,10 @@ const getVideoPlatform = (link) => {
           </h2>
 
           <ul className="space-y-3 text-sm text-gray-600">
-            <li>🥇 1st Prize – ₹5,000 + Feature</li>
-            <li>🥈 2nd Prize – ₹3,000</li>
-            <li>🥉 3rd Prize – ₹1,000</li>
-            <li>🎖 Top 10 – Featured in Explore</li>
+            <li>🥇 1st Prize – ₹21,000 </li>
+            <li>🥈 2nd Prize – ₹15,000</li>
+            <li>🥉 3rd Prize – ₹10,000</li>
+            <li>🎖 Rest Top 7 – ₹2,000 for each </li>
           </ul>
         </div>
       </div>

@@ -25,7 +25,7 @@ const Header = ({ onMenuClick }) => {
           src={baloonWordMark}
           alt="Baloon"
           className="h-8 cursor-pointer"
-          onClick={() => navigate("/journey")}
+          onClick={() => navigate("/home")}
         />
       </div>
 
