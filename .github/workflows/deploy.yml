@@ -40,4 +40,7 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Deploy to S3
-        run: aws s3 sync dist/ s3://${{ secrets.AWS_S3_BUCKET_NAME }} --delete
+        run: |
+          BUCKET_NAME="${{ secrets.AWS_S3_BUCKET_NAME }}"
+          BUCKET_NAME=$(echo "$BUCKET_NAME" | tr -d '\r' | xargs)
+          aws s3 sync dist/ s3://$BUCKET_NAME --delete
