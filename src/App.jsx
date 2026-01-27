@@ -9,6 +9,8 @@ import PublicLayout from "./Components/PublicLayout";
 import Home from "./Components/Home";
 import Participate from "./Components/Participate";
 import Profile from './Components/Profile';
+import Questionaries from "./Components/Questionaries";
+
 function App() {
   return (
     <BrowserRouter>
@@ -25,6 +27,7 @@ function App() {
             </ProtectedRoute>
           }
         >
+          <Route path="/onboarding" element={<Questionaries />} />
           <Route path="/home" element={<Home />} />
           <Route path="/participate" element={<Participate />} />
           <Route path="/journey" element={<JourneyPage />} />

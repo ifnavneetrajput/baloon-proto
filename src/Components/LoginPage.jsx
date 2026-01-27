@@ -17,22 +17,25 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
 
-  const getErrorMessage = (code) => {
-    switch (code) {
-      case "auth/user-not-found":
-        return "No account found with this email.";
-      case "auth/wrong-password":
-        return "Incorrect password.";
-      case "auth/invalid-email":
-        return "Invalid email address.";
-      case "auth/too-many-requests":
-        return "Too many attempts. Try again later.";
-      case "auth/popup-closed-by-user":
-        return "Google login was cancelled.";
-      default:
-        return "Something went wrong. Please try again.";
-    }
-  };
+   const getErrorMessage = (code) => {
+     switch (code) {
+       case "auth/user-not-found":
+         return "No account found with this email. Please sign up first.";
+       case "auth/wrong-password":
+         return "Incorrect password. Please try again.";
+       case "auth/invalid-email":
+         return "Please enter a valid email address.";
+       case "auth/too-many-requests":
+         return "Too many failed attempts. Please try again later.";
+       case "auth/user-disabled":
+         return "This account has been disabled. Contact support.";
+       case "auth/network-request-failed":
+         return "Network error. Please check your internet connection.";
+       default:
+         return "Please sign up first or check your credentials";
+     }
+   };
+
 
 const handleLogin = async () => {
   setError("");
