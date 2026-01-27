@@ -8,6 +8,7 @@ import Body from "./Components/Body";
 import PublicLayout from "./Components/PublicLayout";
 import Home from "./Components/Home";
 import Participate from "./Components/Participate";
+import Profile from './Components/Profile';
 function App() {
   return (
     <BrowserRouter>
@@ -28,6 +29,7 @@ function App() {
           <Route path="/participate" element={<Participate />} />
           <Route path="/journey" element={<JourneyPage />} />
           <Route path="/main" element={<YTPage />} />
+          <Route path="/profile" element={<Profile />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/login" />} />
