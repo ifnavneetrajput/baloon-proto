@@ -50,12 +50,11 @@ const Signup = () => {
         password,
       );
 
-      // Save name in Auth profile
       await updateProfile(userCredential.user, {
         displayName: fullName,
       });
 
-      // Save extra data in Firestore
+    
       await setDoc(doc(db, "users", userCredential.user.uid), {
         fullName,
         email,
@@ -64,7 +63,7 @@ const Signup = () => {
         createdAt: new Date(),
       });
 
-      navigate("/home");
+     navigate("/onboarding");
     } catch (err) {
       setError(getErrorMessage(err.code));
     } finally {
