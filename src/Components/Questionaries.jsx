@@ -148,7 +148,12 @@ const Questionaries = () => {
    }
 
    setStep((prev) => prev + 1);
- };
+  };
+  const handlePrev = () => {
+    if (step === 0) return;
+    setStep((prev) => prev - 1);
+  };
+
 
 if (!user) return null;
 if (!current) return null;
@@ -177,6 +182,7 @@ if (!current) return null;
           {current.type === "text" ? (
             <input
               type="text"
+              placeholder="For example: guidance, opportunities, confidence, exposure..."
               value={answers[current.key] || ""}
               onChange={(e) =>
                 setAnswers({ ...answers, [current.key]: e.target.value })
@@ -205,7 +211,18 @@ if (!current) return null;
           )}
         </div>
 
-        <div className="mt-8 flex justify-end">
+        <div className="mt-8 flex items-center justify-between">
+          {step > 0 ? (
+            <button
+              onClick={handlePrev}
+              className="px-6 py-2 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100"
+            >
+              Previous
+            </button>
+          ) : (
+            <div />
+          )}
+
           <button
             disabled={!canContinue() || loading}
             onClick={handleNext}
