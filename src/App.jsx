@@ -16,7 +16,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route element={<PublicLayout />}>
-          {/* <Route path="/login" element={<LoginPage />} /> */}
+          <Route path="/" element={<LoginPage />} />
           <Route path="/signup" element={<Signup />} />
         </Route>
 
@@ -34,8 +34,6 @@ function App() {
           <Route path="/main" element={<YTPage />} />
           <Route path="/profile" element={<Profile />} />
         </Route>
-
-        <Route path="/" element={<LoginPage />} />
       </Routes>
     </BrowserRouter>
   );

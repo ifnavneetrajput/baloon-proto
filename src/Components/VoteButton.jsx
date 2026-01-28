@@ -1,98 +1,81 @@
 import { useEffect, useState } from "react";
 import { auth, db } from "../utils/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+  serverTimestamp,
+} from "firebase/firestore";
 
-const VoteButton = ({ videoId, onCountChange }) => {
-  const [count, setCount] = useState(0);
-  const [voted, setVoted] = useState(false);
+const VoteButton = ({ videoId, hasVoted, setHasVoted, onCountChange }) => {
   const [user, setUser] = useState(null);
-  const [error, setError] = useState(false);
+  const [count, setCount] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (u) => {
-      setUser(u);
-    });
+    const unsub = onAuthStateChanged(auth, (u) => setUser(u));
     return () => unsub();
   }, []);
 
   useEffect(() => {
-    if (!videoId) return;
-
     const fetchVotes = async () => {
-      try {
-        const ref = doc(db, "votes", videoId);
-        const snap = await getDoc(ref);
-
-        if (snap.exists()) {
-          const data = snap.data();
-          setCount(data.count || 0);
-          onCountChange?.(data.count || 0);
-
-          if (user && data.users?.[user.uid]) {
-            setVoted(true);
-          }
-        } else {
-          setCount(0);
-          onCountChange?.(0);
-        }
-      } catch {
-        setError(true);
-      }
-    };
-
-    fetchVotes();
-  }, [videoId, user, onCountChange]);
-
-  const handleVote = async () => {
-    if (!user || voted) return;
-
-    try {
       const ref = doc(db, "votes", videoId);
       const snap = await getDoc(ref);
+      const c = snap.exists() ? snap.data().count : 0;
+      setCount(c);
+      onCountChange?.(c);
+    };
+    fetchVotes();
+  }, [videoId, onCountChange]);
 
-      let newCount = 1;
+  const handleVote = async () => {
+    if (!user || hasVoted || loading) return;
+    setLoading(true);
 
-      if (!snap.exists()) {
-        await setDoc(ref, {
-          count: 1,
-          users: { [user.uid]: true },
-        });
-      } else {
-        newCount = snap.data().count + 1;
-        await updateDoc(ref, {
-          count: newCount,
-          [`users.${user.uid}`]: true,
-        });
-      }
+    const userVoteRef = doc(db, "userVotes", user.uid);
+    const userVoteSnap = await getDoc(userVoteRef);
+    if (userVoteSnap.exists()) {
+      setHasVoted(true);
+      setLoading(false);
+      return;
+    }
 
+    const voteRef = doc(db, "votes", videoId);
+    const voteSnap = await getDoc(voteRef);
+
+    if (!voteSnap.exists()) {
+      await setDoc(voteRef, { count: 1 });
+      setCount(1);
+      onCountChange?.(1);
+    } else {
+      const newCount = voteSnap.data().count + 1;
+      await updateDoc(voteRef, { count: newCount });
       setCount(newCount);
       onCountChange?.(newCount);
-      setVoted(true);
-    } catch {
-      setError(true);
     }
-  };
 
-  if (error) {
-    return (
-      <button className="px-4 py-1.5 rounded-full text-sm bg-gray-300 text-gray-500 cursor-not-allowed">
-        Offline
-      </button>
-    );
-  }
+    await setDoc(userVoteRef, {
+      videoId,
+      votedAt: serverTimestamp(),
+    });
+
+    setHasVoted(true);
+    setLoading(false);
+  };
 
   return (
     <button
       onClick={handleVote}
-      disabled={!user || voted}
-      className={`px-4 py-1.5 rounded-full text-sm font-semibold ${
-        !user || voted
+      disabled={!user || hasVoted || loading}
+      className={`px-4 py-1.5 rounded-full text-sm font-semibold transition ${
+        !user || hasVoted || loading
           ? "bg-gray-300 text-gray-500 cursor-not-allowed"
           : "bg-pink-600 text-white hover:bg-pink-700"
       }`}
     >
-      {voted ? "Voted" : "Vote"}
+      {hasVoted ? "Voted" : "Vote"}
     </button>
   );
 };
