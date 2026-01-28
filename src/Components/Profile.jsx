@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { auth, db } from "../utils/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { onAuthStateChanged, signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+
 import {
   FaUserCircle,
   FaSignOutAlt,
@@ -13,6 +15,7 @@ import {
 const Profile = () => {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+const navigate = useNavigate();
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (user) => {
@@ -38,7 +41,7 @@ const Profile = () => {
 
   const handleLogout = async () => {
     await signOut(auth);
-    window.location.href = "/";
+    navigate("/");
   };
 
   if (loading) {
@@ -62,7 +65,6 @@ const Profile = () => {
   return (
     <div className="flex justify-center py-10 px-4">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg border p-6">
-    
         <div className="flex flex-col items-center text-center">
           <FaUserCircle className="text-pink-500 text-6xl mb-3" />
 
@@ -82,7 +84,6 @@ const Profile = () => {
           )}
         </div>
 
-  
         <div className="mt-6 space-y-4 text-sm">
           <div className="flex items-center justify-between bg-gray-50 rounded-lg px-4 py-3">
             <div className="flex items-center gap-3 text-gray-600">
@@ -105,25 +106,14 @@ const Profile = () => {
           </div>
         </div>
 
-      
         <div className="mt-6 space-y-3">
-          {isIncomplete ? (
-            <button
-              onClick={() => alert("Edit profile coming next 🙂")}
-              className="w-full bg-pink-500 text-white text-sm py-2 rounded-lg
-                         hover:bg-pink-600 transition"
-            >
-              Complete Profile
-            </button>
-          ) : (
-            <button
-              disabled
-              className="w-full border text-sm py-2 rounded-lg
-                         text-gray-400 cursor-not-allowed"
-            >
-              Profile Complete
-            </button>
-          )}
+          <button
+            onClick={() => navigate("/profile/edit")}
+            className="w-full bg-pink-500 text-white text-sm py-2 rounded-lg
+             hover:bg-pink-600 transition"
+          >
+            {isIncomplete ? "Complete Profile" : "Edit Profile"}
+          </button>
 
           <button
             onClick={handleLogout}

@@ -10,7 +10,7 @@ import Home from "./Components/Home";
 import Participate from "./Components/Participate";
 import Profile from './Components/Profile';
 import Questionaries from "./Components/Questionaries";
-
+import EditProfile from "./Components/EditProfile";
 function App() {
   return (
     <BrowserRouter>
@@ -27,6 +27,8 @@ function App() {
             </ProtectedRoute>
           }
         >
+          <Route path="/profile/edit" element={<EditProfile />} />
+
           <Route path="/onboarding" element={<Questionaries />} />
           <Route path="/home" element={<Home />} />
           <Route path="/participate" element={<Participate />} />
