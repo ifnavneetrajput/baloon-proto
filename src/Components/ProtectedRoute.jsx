@@ -35,7 +35,7 @@ const ProtectedRoute = ({ children }) => {
   if (user === undefined || userData === undefined) return null;
 
   if (!user) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/" replace />;
   }
 
   if (!userData.onboardingCompleted && location.pathname !== "/onboarding") {

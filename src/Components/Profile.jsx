@@ -38,7 +38,7 @@ const Profile = () => {
 
   const handleLogout = async () => {
     await signOut(auth);
-    window.location.href = "/login";
+    window.location.href = "/";
   };
 
   if (loading) {
