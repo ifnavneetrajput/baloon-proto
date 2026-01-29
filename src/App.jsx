@@ -10,13 +10,13 @@ import Home from "./Components/Home";
 import Participate from "./Components/Participate";
 import Profile from './Components/Profile';
 import Questionaries from "./Components/Questionaries";
-
+import EditProfile from "./Components/EditProfile";
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route element={<PublicLayout />}>
-          {/* <Route path="/login" element={<LoginPage />} /> */}
+          <Route path="/" element={<LoginPage />} />
           <Route path="/signup" element={<Signup />} />
         </Route>
 
@@ -27,6 +27,8 @@ function App() {
             </ProtectedRoute>
           }
         >
+          <Route path="/profile/edit" element={<EditProfile />} />
+
           <Route path="/onboarding" element={<Questionaries />} />
           <Route path="/home" element={<Home />} />
           <Route path="/participate" element={<Participate />} />
@@ -34,8 +36,6 @@ function App() {
           <Route path="/main" element={<YTPage />} />
           <Route path="/profile" element={<Profile />} />
         </Route>
-
-        <Route path="/" element={<LoginPage />} />
       </Routes>
     </BrowserRouter>
   );
