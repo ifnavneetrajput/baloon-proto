@@ -11,12 +11,15 @@ import Participate from "./Components/Participate";
 import Profile from './Components/Profile';
 import Questionaries from "./Components/Questionaries";
 import EditProfile from "./Components/EditProfile";
+import Home1 from "./Components/Home1";
+import AppLayout from "./Components/AppLayout";
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route element={<PublicLayout />}>
-          <Route path="/" element={<LoginPage />} />
+          <Route path="/" element={<AppLayout />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<Signup />} />
         </Route>
 

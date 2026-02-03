@@ -3,6 +3,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../utils/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate, Link } from "react-router-dom";
+import baloonPurpleLogo from "../assets/baloon-purple-logo.svg";
 
 const Signup = () => {
   const [fullName, setFullName] = useState("");
@@ -54,7 +55,6 @@ const Signup = () => {
         displayName: fullName,
       });
 
-    
       await setDoc(doc(db, "users", userCredential.user.uid), {
         fullName,
         email,
@@ -63,7 +63,7 @@ const Signup = () => {
         createdAt: new Date(),
       });
 
-     navigate("/onboarding");
+      navigate("/onboarding");
     } catch (err) {
       setError(getErrorMessage(err.code));
     } finally {
@@ -72,75 +72,88 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-white">
-      <div className="w-full max-w-md px-6">
-        <h1 className="text-lg font-medium text-center mb-6">Create Account</h1>
-
-        {error && (
-          <p className="mb-4 text-sm text-red-500 text-center">{error}</p>
-        )}
-
-        <input
-          type="text"
-          placeholder="Full Name"
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
-          className="w-full mb-3 px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-pink-500"
+    <div className="min-h-screen bg-white">
+      <nav className="h-16 flex items-center px-6">
+        <img
+          src={baloonPurpleLogo}
+          alt="Baloon"
+          className="h-8 cursor-pointer"
+          onClick={() => navigate("/")}
         />
+      </nav>
 
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full mb-3 px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-pink-500"
-        />
+      <div className="min-h-[calc(100vh-64px)] flex items-center justify-center">
+        <div className="w-full max-w-md px-6">
+          <h1 className="text-lg font-medium text-center mb-6">
+            Create Account
+          </h1>
 
-        <input
-          type="number"
-          placeholder="Age"
-          value={age}
-          onChange={(e) => setAge(e.target.value)}
-          className="w-full mb-3 px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-pink-500"
-        />
+          {error && (
+            <p className="mb-4 text-sm text-red-500 text-center">{error}</p>
+          )}
 
-        <select
-          value={gender}
-          onChange={(e) => setGender(e.target.value)}
-          className="w-full mb-3 px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-pink-500"
-        >
-          <option value="">Select Gender</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="other">Other</option>
-        </select>
+          <input
+            type="text"
+            placeholder="Full Name"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+            className="w-full mb-3 px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500"
+          />
 
-        <input
-          type="password"
-          placeholder="Password (min 6 characters)"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full mb-4 px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-pink-500"
-        />
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full mb-3 px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500"
+          />
 
-        <button
-          onClick={handleSignup}
-          disabled={loading}
-          className={`w-full py-2 rounded-full text-sm font-medium text-white transition ${
-            loading
-              ? "bg-pink-300 cursor-not-allowed"
-              : "bg-pink-600 hover:bg-pink-700"
-          }`}
-        >
-          {loading ? "Creating account..." : "Sign Up"}
-        </button>
+          <input
+            type="number"
+            placeholder="Age"
+            value={age}
+            onChange={(e) => setAge(e.target.value)}
+            className="w-full mb-3 px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500"
+          />
 
-        <p className="text-sm text-center mt-4">
-          Already have an account?{" "}
-          <Link to="/" className="text-pink-600 font-medium">
-            Log In
-          </Link>
-        </p>
+          <select
+            value={gender}
+            onChange={(e) => setGender(e.target.value)}
+            className="w-full mb-3 px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500"
+          >
+            <option value="">Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+
+          <input
+            type="password"
+            placeholder="Password (min 6 characters)"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full mb-4 px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500"
+          />
+
+          <button
+            onClick={handleSignup}
+            disabled={loading}
+            className={`w-full py-2 rounded-full text-sm font-medium text-white transition ${
+              loading
+                ? "bg-purple-300 cursor-not-allowed"
+                : "bg-purple-600 hover:bg-purple-700"
+            }`}
+          >
+            {loading ? "Creating account..." : "Sign Up"}
+          </button>
+
+          <p className="text-sm text-center mt-4">
+            Already have an account?{" "}
+            <Link to="/login" className="text-purple-600 font-medium">
+              Log In
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );

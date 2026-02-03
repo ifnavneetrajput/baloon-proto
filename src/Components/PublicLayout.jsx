@@ -4,7 +4,7 @@ import Navbar from "./Navbar";
 const PublicLayout = () => {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <Outlet />
     </>
   );
